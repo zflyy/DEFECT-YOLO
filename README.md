@@ -3,7 +3,7 @@
 ## Overview
 DEFECT-YOLO is an advanced model designed to enhance the detection of metal surface defects by addressing challenges such as inter-class similarity and intra-class variance. Based on the YOLOv8s model, DEFECT-YOLO introduces several key enhancements to improve accuracy and efficiency in multi-metal defect detection.
 
-## Key Features
+## Innovations
 - **Effective Multi-scale Downsampling Convolution Module (EMDCM):** Enhances detection accuracy while keeping parameters minimal.
 - **Atrous Spatial Pyramid Pooling with Efficient Multiscale Attention (ASPPE):** Improves the model's capability to capture local features.
 - **Multi-branch Coordinate Attention (MCA):** Strengthens feature extraction for more precise defect detection.
@@ -79,8 +79,8 @@ The distribution of defect categories in the DEFECT dataset is illustrated below
 | Scratches           | 548      |
 | Bubble              | 119      |
 
-**Split the FOD-Tiny Data:**
-
+**Split the DEFECT Data:**
+Divide the DEFECT dataset into training, validation, and test sets with a ratio of 8:1:1
 | Split   | Total | Train | Val  | Test |
 |---------|:-----:|:-----:|:----:|:----:|
 | Number  | 5748  | 3834  | 427  | 474  |
@@ -90,11 +90,10 @@ To investigate the distribution of the center point coordinates of the instance 
 
 - **Center Point Coordinates Distribution:**
   - The area above and near the center on the x-axis had darker colors, indicating that labels were predominantly located at the center of the images. Other labels were scattered in various positions.
+![Label Distribution by Type](./Data/LabelDistributionxy.png)
 
 - **Width and Height Distribution of the Instance Box:**
   - The distribution is mainly concentrated in the bottom-left corner, suggesting that most defects in this dataset are small targets. As the aspect ratio of labels increased, the number of defects gradually decreased, indicating a lower prevalence of large-sized targets. Some labels were concentrated near the end of the coordinate axes, indicating the existence of extremely wide and tall labels.
-
-![Label Distribution by Type](./Data/LabelDistributionxy.png)
 
 ![Label Distribution by Size](./Data/LabelDistribution_wh.png)
 

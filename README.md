@@ -97,12 +97,12 @@ To investigate the distribution of the center point coordinates of the instance 
 
 ![Label Distribution by Size](./Data/LabelDistribution_wh.png)
 
-#### Installation
+#### train and test
 To install DEFECT-YOLO, clone the repository and install the necessary dependencies:
 
 ```bash
 git clone https://github.com/Dafei-Zhang/DEFECT-YOLO.git
-cd DEFECT-YOLO
+cd DEFECT-YOLO-CODE
 
 pip install -r requirements.txt
 
@@ -138,6 +138,13 @@ after:
 ​                        |--img2.jpg
 ​                        `--img...jpg
 
+# train
+yolo task=detect model="ultralytics\cfg\models\v8\yolov8-Defect-YOLO.yaml" 
+or
+python train.py
+
+# test
+python val.py
 ```
 
 ## References

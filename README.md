@@ -90,7 +90,7 @@ To investigate the distribution of the center point coordinates of the instance 
 
 - **Center Point Coordinates Distribution:**
   - The area above and near the center on the x-axis had darker colors, indicating that labels were predominantly located at the center of the images. Other labels were scattered in various positions.
-![Label Distribution by Type](./Data/LabelDistributionxy.png)
+  ![Label Distribution by Type](./Data/LabelDistributionxy.png)
 
 - **Width and Height Distribution of the Instance Box:**
   - The distribution is mainly concentrated in the bottom-left corner, suggesting that most defects in this dataset are small targets. As the aspect ratio of labels increased, the number of defects gradually decreased, indicating a lower prevalence of large-sized targets. Some labels were concentrated near the end of the coordinate axes, indicating the existence of extremely wide and tall labels.
@@ -103,7 +103,41 @@ To install DEFECT-YOLO, clone the repository and install the necessary dependenc
 ```bash
 git clone https://github.com/Dafei-Zhang/DEFECT-YOLO.git
 cd DEFECT-YOLO
+
 pip install -r requirements.txt
+
+# preprocess dataset
+python DEFECT-DET-Dataset\preprocess_dataset.py
+
+before:
+|--images
+​               |--test
+​                        |--test1.zip
+​                        |--test2.zip
+​                        `--test...zip
+​               |--train
+​                        |--train1.zip
+​                        |--train1.zip
+​                        `--train...zip
+​               |--val
+​                        |--val1.zip
+​                        |--val2.zip
+​                        `--val....zip
+after:
+|--images
+​               |--test
+​                        |--img1.jpg
+​                        |--img2.jpg
+​                        `--img...jpg
+​               |--train
+​                        |--img1.jpg
+​                        |--img2.jpg
+​                        `--img...jpg
+​               |--val
+​                        |--img1.jpg
+​                        |--img2.jpg
+​                        `--img...jpg
+
 ```
 
 ## References

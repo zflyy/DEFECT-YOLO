@@ -984,8 +984,8 @@ class SCDown(nn.Module):
         """
         return self.cv2(self.cv1(x))
 
-# Effective Multi-scale Downsampling Convolution Module
-class MDCBS(nn.Module):
+# Effective Multi-scale Convolution Module
+class MCBS(nn.Module):
     def __init__(self, channel=256, kernels=[3, 5]):
         super().__init__()
         self.groups = len(kernels)
@@ -997,25 +997,25 @@ class MDCBS(nn.Module):
         
     def forward(self, x):
         _, c, _, _ = x.size()
-        x_cheap, x_group = torch.split(x, [c // 2, c // 2], dim=1) 
-        x_group = rearrange(x_group, 'bs (g ch) h w -> bs ch h w g', g=self.groups)
-        x_group = torch.stack([self.convs[i](x_group[..., i]) for i in range(len(self.convs))])
-        x_group = rearrange(x_group, 'g bs ch h w -> bs (g ch) h w')
-        x = torch.cat([x_cheap, x_group], dim=1)
-        x = self.conv_1x1(x)
-        return x
+        x_3, x_12 = torch.split(x, [c // 2, c // 2], dim=1) 
+        x_12 = rearrange(x_12, 'bs (g ch) h w -> bs ch h w g', g=self.groups)
+        y_12 = torch.stack([self.convs[i](x_12[..., i]) for i in range(len(self.convs))])
+        y_12 = rearrange(y_12, 'g bs ch h w -> bs (g ch) h w')
+        y = torch.cat([x_3, y_12], dim=1)
+        y = self.conv_1x1(y)
+        return y
 
-class MDBottleNeck(Bottleneck):
+class MBottleNeck(Bottleneck):
     def __init__(self, c1, c2, shortcut=True, g=1, k=(3, 3), e=0.5):
         super().__init__(c1, c2, shortcut, g, k, e)
         c_ = int(c2 * e)  # hidden channels
         self.cv1 = Conv(c1, c_, k[0], 1)
-        self.cv2 = MDCBS(c2)
+        self.cv2 = MCBS(c2)
 
 class EMCM(C2f):
     def __init__(self, c1, c2, n=1, shortcut=False, g=1, e=0.5):
         super().__init__(c1, c2, n, shortcut, g, e)
-        self.m = nn.ModuleList(MDBottleNeck(self.c, self.c, shortcut, g, k=(3, 3), e=1.0) for _ in range(n))
+        self.m = nn.ModuleList(MBottleNeck(self.c, self.c, shortcut, g, k=(3, 3), e=1.0) for _ in range(n))
     def downsample():
         pass
     def upsample():
@@ -1043,7 +1043,6 @@ class ASPPE(nn.Module):
         y2 = self.cv17(x_1)  # Apply 3x3 dilated convolution with rate 3
         y3 = self.cv19(x_1)  # Apply 3x3 dilated convolution with rate 4
         y4 = self.cv111(x_1) # Apply 3x3 dilated convolution with rate 5
-
         out_1 = self.Adaptive_module(self.cv2(torch.cat((x_1, y1, y2, y3, y4), 1)))
         out_2 = self.cv3(x)  
         # Concatenate the outputs from the adaptive module and the direct convolution

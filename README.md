@@ -15,6 +15,7 @@
     - [Installation & Usage](#installation--usage)
 7. [References](#7-references)
 8. [License](#8-license)
+9. [Acknowledgements](#9-Acknowledgements)
 
 
 
@@ -212,3 +213,7 @@ After preprocessing:
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
+
+## Acknowledgements
+
+We would like to express our sincere gratitude to the authors and contributors of the datasets and research papers referenced in this project. Their work has provided invaluable resources and insights that significantly supported the development of this project. In particular, we thank the Tianchi Platform for providing the Aluminum Defect Dataset and acknowledge the contributions of the research works on surface defect detection, including datasets and methodologies introduced by Huang et al., Lv et al., Song et al., Hou et al., and Wang et al.. These datasets and studies have been crucial in guiding our experimentation and research.
